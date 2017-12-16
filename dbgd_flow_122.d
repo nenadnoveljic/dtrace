@@ -1,7 +1,9 @@
 /*
-  Copyright: (c) Nenad Noveljic - All rights reserved
+  Version: v1.1
 
-  http://nenadnoveljic.com  
+  Author: Nenad Noveljic
+
+  See also: http://nenadnoveljic.com/blog/event-propagation-in-oracle-12-2
 
   Event propagation tracing for Oracle 12.2
 */
@@ -34,21 +36,17 @@ pid$target::dbgdSetEvents:entry
   printf("-----------\n");
   self->SetEvents_arg2 = arg2 ;
   self->SetEvents_arg2_0xa8 = arg2 + 0xa8 ;
-  printf("%s entry\narg2=%x \n*(arg2+0xa8): *%x = %x\n",
-    probefunc,arg2,
-    self->SetEvents_arg2_0xa8,
-    *(uint64_t *)copyin(self->SetEvents_arg2_0xa8,8)
+  printf("%s entry\narg2=%x \n",
+    probefunc,arg2
   );
 }
 
 pid$target::dbgdSetEvents:return
 {
   printf("-----------\n");
-  printf("%s return \n*arg2: *(%x) = %x \n*%x = %x\n",
+  printf("%s return \n*arg2: *(%x) = %x \n",
     probefunc,self->SetEvents_arg2,
-    *(uint64_t *)copyin(self->SetEvents_arg2,8),
-    self->SetEvents_arg2_0xa8,
-    *(uint64_t *)copyin(self->SetEvents_arg2_0xa8,8)
+    *(uint64_t *)copyin(self->SetEvents_arg2,8)
   );
 }
 
